@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ant table 数据量大时的销毁表现</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.2/dist/antd.css">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+  <div id="app">
+    <a-button @click="ant=!ant">显示隐藏ant table</a-button>
+    <a-button @click="element=!element">显示隐藏element table</a-button>
+    <div style="display: flex;">
+      <div style="flex: 1;">
+
+        <a-table v-if="ant" :columns="[{
+          dataIndex: 'name',
+          key: 'name',
+        }]" :data-source="data" :pagination="{
+          defaultPageSize: 1000
+        }" />
+
+      </div>
+      <div style="flex: 1;">
+
+        <el-table v-if="element" :data="data">
+          <el-table-column prop="name" label="name"></el-table-column>
+        </el-table>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.2/dist/antd.min.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    Vue.use(antd);
+    Vue.use(ELEMENT)
+    var app = new Vue({
+      el: '#app',
+      data: {
+        ant: true,
+        element: true,
+        data: [...Array(1000).keys()].map(item => {
+          return {
+            name: '测试' + item
+          }
+        })
+      }
+    })
+  </script>
+</body>
+
+</html>
